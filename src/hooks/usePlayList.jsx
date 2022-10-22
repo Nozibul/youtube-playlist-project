@@ -8,7 +8,7 @@ const usePlayList = () => {
     recentPlayLists:[],
     favorites:[],
   });
-//   console.log(state.playLists)
+
 const [error, setError] = useState('')
 const [loading, setLoading] = useState(false)
 
@@ -22,7 +22,6 @@ const [loading, setLoading] = useState(false)
     setLoading(true);
     try{
        const playlist = await getPlaylist(playListId);
-       console.log('playlist',playlist)
        setError('');
         setState((prev)=> ({
             ...prev,

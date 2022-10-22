@@ -10,7 +10,7 @@ const URL = `https://youtube.googleapis.com/youtube/v3/playlistItems?key=${key}&
 const {data} = await axios.get(URL);
 result = [...result, ...data.items];
 if(data.nextPageToken){
-  result = await getPlaylist(playListId, data.nextPageToken, result);
+  result = await getPlaylistItem(playListId, data?.nextPageToken, result);
 }
   return result; 
 };
@@ -18,18 +18,17 @@ if(data.nextPageToken){
 const getPlaylist = async (playListId) =>{
   const URL = `https://youtube.googleapis.com/youtube/v3/playlists?key=${key}&part=snippet&id=${playListId}`
   const { data } = await axios.get(URL);
-  // console.log('data', data)
-  let playlistItems = await getPlaylistItem(playListId);
-  // console.log('playlistItem', playlistItems)
   const {title:playlistTitle, channelId, description:playlistDescription, thumbnails, channelTitle} = data?.items[0]?.snippet
-  
-  playlistItems = playlistItems.map((items)=>{
-     const { title, description, thumbnail: {medium} } = items.snippet; 
-     return {
-       title, description,  thumbnail: medium,
-       contentDetails: items.contentDetails
-     }
+
+  let playlistItems = await getPlaylistItem(playListId); // single video details find.
+  playlistItems = playlistItems?.map((item)=> {
+    const {title, description, thumbnails: { high }} = item.snippet;
+    return {
+            title, description,  thumbnail: high,
+            contentDetails: item.contentDetails,
+        };
   });
+
 
   return {  
     playListId,
