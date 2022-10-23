@@ -1,16 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import getPlaylist from "../api";
+import storage from "../utils/Storage";
 
+const STORAGE_KEY = 'youtube_playlist_state'
 
-const usePlayList = () => {
-  const [state, setState] = useState({
+const INIT = {
     playLists:{},
     recentPlayLists:[],
     favorites:[],
-  });
+  }
+
+const usePlayList = () => {
+  const [state, setState] = useState(INIT);
 
 const [error, setError] = useState('')
 const [loading, setLoading] = useState(false)
+
+               // localStorage
+// The first usePlaylist hooks is called in the app.js file 
+// So we will use localStores inside the usePlaylist.
+// And storage class call and see if I have data, if there is data then that will be my state.
+// Since the load factor only happens once, we can use the useEffect hook.
+useEffect(()=>{
+    const loState = storage.get(STORAGE_KEY);
+    if(loState){
+    setState({...loState}); // We need to take the help of use effect to save the data that we got 
+    }
+}, []);
+
+// We need to take the help of use effect to save the data that we got
+useEffect(()=>{
+   if(state !== INIT){
+    storage.save(STORAGE_KEY, state);
+   }
+}, [state])
 
 
  const getPlaylistById = async (playListId, refresh=false)=>{

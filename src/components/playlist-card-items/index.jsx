@@ -5,11 +5,12 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 import { Box, Button, Stack } from '@mui/material';
-import { PlayCircleOutline, PlaylistAdd } from '@mui/icons-material';
+import { PlayCircleOutline} from '@mui/icons-material';
+import { Link as RouterLink } from 'react-router-dom';
 
 
 
-const RecipeReviewCard =({playlistThumbnails, playlistTitle ,channelTitle})=> {
+const RecipeReviewCard =({playlistThumbnails, playlistTitle ,channelTitle, playListId})=> {
  
   return (
     <Card sx={{height:'100%', display:'flex', flexDirection:'column' , margin: 1}}>
@@ -25,17 +26,17 @@ const RecipeReviewCard =({playlistThumbnails, playlistTitle ,channelTitle})=> {
              : playlistTitle )}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-           { channelTitle}
+           {channelTitle}
         </Typography>
       </CardContent> 
 
       <Box sx={{flexGrow: 1}}></Box>
 
       <CardActions disableSpacing>
-        <Button>
-          <Stack direction={'row'} spacing={1} alignItems={'center'}>
-           <PlayCircleOutline />
-           <Typography variant='body2' fontWeight={600}>SPlay Tutorial</Typography>
+        <Button to={`player/${playListId}`} component={RouterLink}>
+          <Stack direction={'row'} spacing={1} >
+            <PlayCircleOutline />
+            <Typography variant='body2' fontWeight={600}>Play Tutorial</Typography>
           </Stack>
         </Button>
       </CardActions>
