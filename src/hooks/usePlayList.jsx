@@ -13,10 +13,10 @@ const INIT = {
 const usePlayList = () => {
   const [state, setState] = useState(INIT);
 
-const [error, setError] = useState('')
-const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-               // localStorage
+                        // localStorage
 // The first usePlaylist hooks is called in the app.js file 
 // So we will use localStores inside the usePlaylist.
 // And storage class call and see if I have data, if there is data then that will be my state.
@@ -36,16 +36,17 @@ useEffect(()=>{
 }, [state])
 
 
+
  const getPlaylistById = async (playListId, refresh=false)=>{
     if(state.playLists[playListId] && !refresh){
         return ;
     }
-    
+
    
     setLoading(true);
     try{
        const playlist = await getPlaylist(playListId);
-       setError('');
+        setError('');
         setState((prev)=> ({
             ...prev,
             playLists:{
@@ -56,7 +57,7 @@ useEffect(()=>{
     }catch(e){
         setError(e?.response?.data?.error?.message || "Something Went Wrong");
     }finally{
-       setLoading(false);
+        setLoading(false);
     }
 }
 
@@ -70,13 +71,12 @@ const addToFavorites = (playListId) =>{
 const addRecent = (playListId) =>{
     setState(prev=>({
         ...prev,
-        recentPlayLists:[...prev, playListId],// recentPlayList er moddhe id tdhukse
+        recentPlayLists:[...prev, playListId],
     }));
 }
 
 const getPlayListById=(ids=[])=>{
-    return ids.map(id=> state.playLists[id]);//state er moddhe j playList obg ase ter j
-    // id ase oi id ta return korbe then id gulo k array te rakhbe
+    return ids.map(id=> state.playLists[id]);
 }
 
 

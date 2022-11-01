@@ -4,8 +4,19 @@ import CssBaseline from '@mui/material/CssBaseline'
 import Navbar from './components/navBar'
 import RecipeReviewCard from './components/playlist-card-items';
 import usePlayList from './hooks/usePlayList'
+import { useStoreActions } from "easy-peasy";
+import { useEffect } from "react";
+ 
+
 
 const HomePage = ({playlistArray})=>{
+  //  get playlist model 
+  const playlist = useStoreActions(actions => actions.playlist)
+  
+  useEffect(()=>{
+    playlist.getPlaylistData('PL4cUxeGkcC9i5yvDkJgt60vNVWffpblB7')
+  }, [])
+
   return (
     <Container maxWidth={'lg'} sx={{my: 16}}>
          {
@@ -34,9 +45,10 @@ const HomePage = ({playlistArray})=>{
 const PlayerPage =({playLists})=>{
 const { playListId } = useParams();//Returns all parameters as objects
   // console.log('params:', params); //params: {playListId: 'PL_XxuZqN0xVD0op-QDEgyXFA4fRPChvkl'}
-  console.log(playLists[playListId])
+
   const current = playLists[playListId];
    if(!current) return ;
+
   return(
     <Container maxWidth={'lg'} sx={{my: 16}}>
      <Typography align="center" variant="h4">{current.playlistTitle}</Typography>
@@ -56,7 +68,7 @@ const NotFound =()=>{
 
 
 const App = () => {
-const {playLists, error, getPlaylistById, channelTitle, playlistTitle} = usePlayList();
+const {playLists, error, getPlaylistById} = usePlayList();
 
 const playlistArray = Object.values(playLists); // playLists obj er moddhe thaka property er value gulo akta array hisebe return korbe
 

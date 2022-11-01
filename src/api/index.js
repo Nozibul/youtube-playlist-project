@@ -20,7 +20,7 @@ const getPlaylist = async (playListId) =>{
   const { data } = await axios.get(URL);
   const {title:playlistTitle, channelId, description:playlistDescription, thumbnails, channelTitle} = data?.items[0]?.snippet
 
-  let playlistItems = await getPlaylistItem(playListId); // single video details find.
+  let playlistItems = await getPlaylistItem(playListId); //get single video details find.
   playlistItems = playlistItems?.map((item)=> {
     const {title, description, thumbnails: { high }} = item.snippet;
     return {
